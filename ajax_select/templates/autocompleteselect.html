@@ -8,52 +8,11 @@
 <input type="hidden" name="{{name}}" id="{{html_id}}" value="{{current_id}}" />
 <script type="text/javascript">
 //<![CDATA[
-	function receiveResult_{{func_slug}}(event, ui) {
-		prev = $("#{{html_id}}").val();
-		if(prev) {
-			kill_{{ func_slug }}(prev);
-		}
-		$("#{{html_id}}").val(ui.item.pk);
-		$("#{{html_id}}_text").val('');
-		addKiller_{{ func_slug }}(ui.item.desc, ui.item.pk);
-		$("#{{html_id}}_on_deck").trigger("added");
-
-		return false;
-	}
-	$("#{{html_id}}_text").autocomplete({
+	$("#{{html_id}}").autocompleteselect({
 		minLength: {{min_length}},
-		source: '{{lookup_url}}',
-		select: receiveResult_{{func_slug}}
-	}).data("autocomplete")._renderItem = function(ul, item) {
-			return $("<li></li>")
-				.data("item.autocomplete", item)
-				.append("<a>" + item.label + "</a>")
-				.appendTo(ul);
-		};
-	function addKiller_{{func_slug}}(repr,id) {
-		kill = "<span class='iconic' id='kill_{{ html_id }}'>X</span>	";
-		if(repr){
-			$( "#{{html_id}}_on_deck" ).empty();
-			$( "#{{html_id}}_on_deck" ).append( "<div>" + kill + repr + "</div>");
-		} else {
-			$( "#{{html_id}}_on_deck > div" ).prepend(kill);
-		}
-		$("#kill_{{ html_id }}").click(function() { return function(){
-			kill_{{func_slug}}();
-			$("#{{html_id}}_on_deck").trigger("killed");
-		}}() );
-	}
-	function kill_{{func_slug}}() {
-		$("#{{html_id}}").val( '' );
-		$( "#{{html_id}}_on_deck" ).children().fadeOut(1.0).remove();
-	}
-	if($("#{{ html_id }}").val()) { // add X for initial value if any
-		addKiller_{{ func_slug }}(null,$("#{{ html_id }}").val());
-	}
-	$("#{{ html_id }}").bind('didAddPopup',function(event,id,repr) {
-		ui = { item: { pk: id, desc: repr } }
-		receiveResult_{{func_slug}}(null,ui);
+		source: '{{lookup_url}}'
 	});
+	$("#{{html_id}}_text").autocompletehtml();
 {% block extra_script %}{% endblock %}
 //]]>
 </script>

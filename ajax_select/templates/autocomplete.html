@@ -9,15 +9,9 @@
 		select: function(event, ui) {
 			$("#{{html_id}}").val(ui.item.label);
 			$("#{{html_id}}").trigger("added");
-
 			return false;
 		}
-	}).data("autocomplete")._renderItem = function(ul, item) {
-			return $("<li></li>")
-				.data("item.autocomplete", item)
-				.append("<a>" + item.label + "</a>")
-				.appendTo(ul);
-		};
+	}).autocompletehtml();
 {% block extra_script %}{% endblock %}
 //]]>
 </script>
