@@ -34,7 +34,7 @@ $.fn.autocompleteselect = function(options) {
         }
 
         function addKiller(item) {
-            killer_id = "kill_" + id
+            killer_id = "kill_" + id;
             killButton = '<span class="iconic" id="'+killer_id+'">X</span> ';
             $deck.empty();
             $deck.append("<div>" + killButton + item.desc + "</div>");
@@ -58,7 +58,7 @@ $.fn.autocompleteselect = function(options) {
         }
 
         $this.bind('didAddPopup', function(event, pk, repr) {
-            ui = { item: { pk: pk, desc: repr } }
+            ui = { item: { pk: pk, desc: repr } };
             receiveResult(null, ui);
         });
     });
@@ -87,9 +87,9 @@ $.fn.autocompleteselectmultiple = function(options) {
         }
 
         function addKiller(item) {
-            var pk = item.pk
+            var pk = item.pk;
 
-            killer_id = "kill_" + pk + id
+            killer_id = "kill_" + pk + id;
             killButton = '<span class="iconic" id="'+killer_id+'">X</span> ';
             $deck.append('<div id="'+id+'_on_deck_'+pk+'">' + killButton + item.desc + ' </div>');
 
@@ -114,7 +114,7 @@ $.fn.autocompleteselectmultiple = function(options) {
         }
 
         $this.bind('didAddPopup', function(event, pk, repr) {
-            ui = { item: { pk: pk, desc: repr } }
+            ui = { item: { pk: pk, desc: repr } };
             receiveResult(null, ui);
         });
     });
