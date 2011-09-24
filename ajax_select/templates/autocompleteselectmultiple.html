@@ -11,7 +11,7 @@
 	$("#{{html_id}}").autocompleteselectmultiple({
 		minLength: {{min_length}},
 		source: '{{lookup_url}}',
-		initial: {{current_reprs}}
+		initial: {{initial}}
 	});
 	$("#{{html_id}}_text").autocompletehtml();
 {% block extra_script %}{% endblock %}

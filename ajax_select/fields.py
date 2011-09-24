@@ -9,6 +9,7 @@ from django.template.defaultfilters import escapejs
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from django.utils import simplejson
 
 class AutoCompleteSelectWidget(forms.widgets.TextInput):
 
@@ -134,12 +135,11 @@ class AutoCompleteSelectMultipleWidget(forms.widgets.SelectMultiple):
         objects = lookup.get_objects(value)
 
         # text repr of currently selected items
-        current_repr_json = []
-        for obj in objects:
-            repr = lookup.format_item(obj)
-            current_repr_json.append( """new Array("%s",%s)""" % (escapejs(repr),obj.pk) )
+        initial = mark_safe(simplejson.dumps([
+            { 'pk': unicode(obj.pk), 'desc': lookup.format_item(obj) }
+            for obj in objects
+        ]))
 
-        current_reprs = mark_safe("new Array(%s)" % ",".join(current_repr_json))
         if self.show_help_text:
             help_text = self.help_text
         else:
@@ -152,7 +152,7 @@ class AutoCompleteSelectMultipleWidget(forms.widgets.SelectMultiple):
             'lookup_url':reverse('ajax_lookup',kwargs={'channel':self.channel}),
             'current':value,
             'current_ids':current_ids,
-            'current_reprs':current_reprs,
+            'initial':initial,
             'help_text':help_text,
             'extra_attrs': mark_safe(flatatt(final_attrs)),
             'func_slug': self.html_id.replace("-",""),

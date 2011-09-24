@@ -80,7 +80,7 @@ $.fn.autocompleteselectmultiple = function(options) {
 
             if (prev.indexOf("|"+pk+"|") == -1) {
                 $this.val((prev ? prev : "|") + pk + "|");
-                addKiller(ui.item.desc, pk);
+                addKiller(ui.item);
                 $text.val('');
                 $deck.trigger("added");
             }
@@ -88,10 +88,12 @@ $.fn.autocompleteselectmultiple = function(options) {
             return false;
         }
 
-        function addKiller(repr, pk) {
+        function addKiller(item) {
+            var pk = item.pk
+
             killer_id = "kill_" + pk + id
             killButton = '<span class="iconic" id="'+killer_id+'">X</span> ';
-            $deck.append('<div id="'+id+'_on_deck_'+pk+'">' + killButton + repr + ' </div>');
+            $deck.append('<div id="'+id+'_on_deck_'+pk+'">' + killButton + item.desc + ' </div>');
 
             $("#"+killer_id).click(function() {
                 kill(pk);
@@ -108,8 +110,8 @@ $.fn.autocompleteselectmultiple = function(options) {
         $text.autocomplete(options);
 
         if (options.initial) {
-            $.each(options.initial, function(i, its) {
-                addKiller(its[0], its[1]);
+            $.each(options.initial, function(i, item) {
+                addKiller(item);
             });
         }
 
