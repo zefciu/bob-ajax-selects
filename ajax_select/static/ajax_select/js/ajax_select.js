@@ -27,21 +27,19 @@ $.fn.autocompleteselect = function(options) {
             }
             $this.val(ui.item.pk);
             $text.val('');
-            addKiller(ui.item.desc);
+            addKiller(ui.item);
             $deck.trigger("added");
 
             return false;
         }
 
-        function addKiller(repr) {
-            killButton = '<span class="iconic" id="kill_'+id+'">X</span> ';
-            if (repr) {
-                $deck.empty();
-                $deck.append("<div>" + killButton + repr + "</div>");
-            } else {
-                $("#"+id+"_on_deck > div").prepend(killButton);
-            }
-            $("#kill_"+id).click(function() {
+        function addKiller(item) {
+            killer_id = "kill_" + id
+            killButton = '<span class="iconic" id="'+killer_id+'">X</span> ';
+            $deck.empty();
+            $deck.append("<div>" + killButton + item.desc + "</div>");
+
+            $("#"+killer_id).click(function() {
                 kill();
                 $deck.trigger("killed");
             });
@@ -56,7 +54,7 @@ $.fn.autocompleteselect = function(options) {
         $text.autocomplete(options);
 
         if ($this.val()) { // add X for initial value if any
-            addKiller(null);
+            addKiller({ pk: $this.val(), desc: $deck.children().html() });
         }
 
         $this.bind('didAddPopup', function(event, pk, repr) {
