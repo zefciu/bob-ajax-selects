@@ -123,6 +123,24 @@ $.fn.autocompleteselectmultiple = function(options) {
 })(jQuery);
 
 
+function dynamicAddAutocomplete(prefix_id, callback/*(html_id)*/) {
+    var prefix = 0;
+    var html_id = prefix_id;
+
+    // Some dirty loop to find the appropriate element to apply the callback to
+    while ($('#'+html_id).length) {
+        html_id = prefix_id.replace(/__prefix__/, prefix++);
+    }
+    html_id = prefix_id.replace(/__prefix__/, prefix-2);
+
+    // Ignore the first call to this function, the one that is triggered when
+    // page is loaded just because the "empty" form is there.
+    if ($("#"+html_id+", #"+html_id+"_text").hasClass("ui-autocomplete-input"))
+        return;
+
+    callback(html_id);
+}
+
 /* requires RelatedObjects.js */
 
 function didAddPopup(win,newId,newRepr) {
