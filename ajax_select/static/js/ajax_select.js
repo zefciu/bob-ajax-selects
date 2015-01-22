@@ -109,7 +109,8 @@ define(['jquery', 'jquery-ui'], function ($) {
     		var $deck = $("#"+id+"_on_deck");
     
     		function receiveResult(event, ui) {
-    			pk = ui.item.pk;
+    			var pk, prev;
+                pk = ui.item.pk;
     			prev = $this.val();
     
     			if (prev.indexOf("|"+pk+"|") == -1) {
